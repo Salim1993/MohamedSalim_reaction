@@ -1,0 +1,3 @@
+links used:
+
+http://stackoverflow.com/questions/27680275/dynamic-number-of-buttons-in-linearlayout

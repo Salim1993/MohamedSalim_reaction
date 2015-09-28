@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MohamedSalim_reaction</string>
+
+    <string name="appIntro">Reaction App</string>
+    <string name="action_settings">Settings</string>
+    <string name="singleplayerButton">Singleplayer</string>
+    <string name="title_activity_singleplayer">Singleplayer</string>
+
+    <string name="reactionInstruction">Press the button!</string>
+    <string name="title_activity_choosing_players">choosingPlayers</string>
+
+    <string name="pickNumberInstruction">Choose number of players.</string>
+    <string name="player3Button">3 Players</string>
+    <string name="player2Button">2 Players</string>
+    <string name="player4Button">4 Players</string>
+    <string name="title_activity_multiplayer_screen">multiplayerScreen</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="goStatistics">Statistics</string>
+    <string name="goMultiplayer">Multiplayer</string>
+</resources>
