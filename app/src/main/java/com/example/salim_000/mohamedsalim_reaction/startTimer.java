@@ -1,9 +1,8 @@
 package com.example.salim_000.mohamedsalim_reaction;
 
-import android.os.CountDownTimer;
-
-import java.text.BreakIterator;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by salim_000 on 2015-09-29.
@@ -11,10 +10,20 @@ import java.util.Random;
 public class startTimer {
 
     long totalTime = new Random().nextLong() * 10000;
+    Timer timer = new Timer();
 
     private String status = "not done";
 
     public startTimer() {
+    }
+
+    public void startCountDown() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                status = "done!";
+            }
+        }, 10*1000);
     }
 
     public String getStatus() {
@@ -23,19 +32,4 @@ public class startTimer {
 
     public void setStatus(String text) {status = text;}
 
-    private CountDownTimer timer = new CountDownTimer(3000,1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            status = ("seconds remaining: " + ((int) millisUntilFinished / 1000));
-        }
-
-        @Override
-        public void onFinish() {
-            status = "done!";
-        }
-    };
-
-    public void startCountDown() {
-        timer.start();
-    }
 }

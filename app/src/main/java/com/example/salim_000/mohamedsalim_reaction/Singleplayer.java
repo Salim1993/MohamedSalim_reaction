@@ -18,41 +18,39 @@ import java.util.logging.Handler;
 
 public class Singleplayer extends AppCompatActivity {
 
-    private Handler handler;
-    private beforeReactionTime time = new beforeReactionTime();
-    private startTimer timerStart = new startTimer();
+    startTimer timerStart = new startTimer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer);
-        handler = new timeHandler();
-
 
         AlertDialog.Builder singleplayerBuilder = new AlertDialog.Builder(this);
         singleplayerBuilder.setMessage(R.string.dialogInstructions);
         singleplayerBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                time.doInBackground();
             }
         });
 
         Dialog singleplayerDialog = singleplayerBuilder.create();
         singleplayerDialog.show();
-
-        /*
-        boolean tester = true;
-        timerStart.startCountDown();
-        while(timerStart.getStatus().equals("done!")){
-            tester = false;
-        }
-        */
-        if(time.getStats().equals("done!")) {
-            changeButtonColor(findViewById(R.id.reactionButton));
-        }
-
-
         //startTimer timer = new startTimer();
        // timer.startCountDown();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        boolean tester = true;
+        timerStart.startCountDown();
+        while(!(timerStart.getStatus().equals("done!"))){
+            tester = false;
+        }
+
+        if(timerStart.getStatus().equals("done!")) {
+            changeButtonColor(findViewById(R.id.reactionButton));
+        }
     }
 
     @Override
