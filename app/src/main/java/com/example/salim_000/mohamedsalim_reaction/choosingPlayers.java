@@ -39,16 +39,19 @@ public class choosingPlayers extends AppCompatActivity {
 
     public void create2Buttons(View view){
         Intent intent = new Intent(this, multiplayerScreen.class);
+        intent.putExtra("EXTRA_NUMBER_BUTTONS", 2);
         startActivity(intent);
     }
 
     public void create3Buttons(View view){
         Intent intent = new Intent(this, multiplayerScreen.class);
+        intent.putExtra("EXTRA_NUMBER_BUTTONS", 3);
         startActivity(intent);
     }
 
     public void create4Buttons(View view){
         Intent intent = new Intent(this, multiplayerScreen.class);
+        intent.putExtra("EXTRA_NUMBER_BUTTONS", 4);
         startActivity(intent);
     }
 }

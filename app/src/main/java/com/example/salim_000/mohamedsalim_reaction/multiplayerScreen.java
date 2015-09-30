@@ -18,8 +18,13 @@ public class multiplayerScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_screen);
+        int buttonsNumber = 2;
 
-        int buttonsNumber = 4; // Put here your number of buttons
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            buttonsNumber = extras.getInt("EXTRA_NUMBER_BUTTONS");
+        }
+
         LinearLayout multiplayerGrid = (LinearLayout) findViewById(R.id.multiplayerGrid);
 
         for(int i = 0; i < buttonsNumber; i++)
@@ -30,6 +35,7 @@ public class multiplayerScreen extends AppCompatActivity {
                 //ViewGroup.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 //multiplayerGrid.addView(newButton,lp);
             newButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
+            newButton.setText("Player "+ (i+1));
             multiplayerGrid.addView(newButton);
         }
     }
