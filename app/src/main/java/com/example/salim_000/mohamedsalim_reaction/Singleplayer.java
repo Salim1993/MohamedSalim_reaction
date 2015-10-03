@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,11 +15,15 @@ import android.view.View;
 import android.widget.Button;
 
 import java.text.BreakIterator;
-import java.util.logging.Handler;
+import java.util.Date;
+import android.os.Handler;
 
 public class Singleplayer extends AppCompatActivity {
 
-    startTimer timerStart = new startTimer();
+    Handler timeHandler;
+    String reactionStart = "not done!";
+    //reactionManager currentReactions = new reactionManager();
+    Date startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +47,18 @@ public class Singleplayer extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        boolean tester = true;
-        timerStart.startCountDown();
-        while(!(timerStart.getStatus().equals("done!"))){
-            tester = false;
-        }
-
-        if(timerStart.getStatus().equals("done!")) {
-            changeButtonColor(findViewById(R.id.reactionButton));
-        }
+        timeHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                reactionStart = (String) msg.obj;
+                startTime = new Date();
+                System.out.println(startTime.toString());
+                changeButtonColor(findViewById(R.id.reactionButton));
+                //reactionButton.setOnClickListener(buttonListener);
+            }
+        };
+        Thread t = new Thread(new timeThread());
+        t.start();
     }
 
     @Override
@@ -80,20 +88,20 @@ public class Singleplayer extends AppCompatActivity {
         button.invalidate();
     }
 
-    public class beforeReactionTime extends AsyncTask<Void,Void,Void>{
-        private startTimer timer = new startTimer();
+    class timeThread implements Runnable {
 
-        protected Void doInBackground(Void... params) {
-            timer.startCountDown();
-            while(timer.getStatus().equals("done!")){}
-            return null;
-        }
+        startTimer timerStart = new startTimer();
+        @Override
+        public void run() {
+            timerStart.startCountDown();
+            while(!timerStart.getStatus().equals("done!")){}
+            Message msg = Message.obtain();
+            msg.obj = timerStart.getStatus();
 
-
-        public String getStats(){
-            return timer.getStatus();
+            timeHandler.sendMessage(msg);
         }
     }
+
 }
 
 
