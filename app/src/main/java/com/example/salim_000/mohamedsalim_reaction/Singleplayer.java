@@ -126,7 +126,6 @@ public class Singleplayer extends AppCompatActivity {
             timeHandler.sendMessage(msg);
         }
     }
-
 }
 
 

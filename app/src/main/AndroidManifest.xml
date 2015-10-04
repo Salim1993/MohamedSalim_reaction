@@ -28,6 +28,10 @@
             android:name=".multiplayerScreen"
             android:label="@string/title_activity_multiplayer_screen" >
         </activity>
+        <activity
+            android:name=".statistics"
+            android:label="@string/title_activity_statistics" >
+        </activity>
     </application>
 
 </manifest>

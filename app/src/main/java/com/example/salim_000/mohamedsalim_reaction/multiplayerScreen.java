@@ -1,5 +1,8 @@
 package com.example.salim_000.mohamedsalim_reaction;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +19,8 @@ public class multiplayerScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final playerManager players = new playerManager();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_screen);
         int buttonsNumber = 2;
@@ -29,13 +34,27 @@ public class multiplayerScreen extends AppCompatActivity {
 
         for(int i = 0; i < buttonsNumber; i++)
         {
-                Button newButton = new Button(this);
-                newButton.setId(View.generateViewId());
-                // Since API Level 17, you can also use View.generateViewId()
-                //ViewGroup.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                //multiplayerGrid.addView(newButton,lp);
+            Button newButton = new Button(this);
+            newButton.setId(View.generateViewId());
             newButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
-            newButton.setText("Player "+ (i+1));
+            final int finalButtonsNumber = buttonsNumber;
+            final int finalI = i;
+            newButton.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    players.updatePlayers(finalI +1, finalButtonsNumber);
+                    AlertDialog.Builder endBuilder = new AlertDialog.Builder(multiplayerScreen.this);
+                    endBuilder.setMessage("The winner is Player " + (finalI+1));
+                    endBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+                    Dialog endDialog = endBuilder.create();
+                    endDialog.show();
+                }
+            });
+            newButton.setText("Player " + (finalI + 1));
             multiplayerGrid.addView(newButton);
         }
     }

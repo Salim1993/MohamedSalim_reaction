@@ -21,4 +21,5 @@
     <string name="buttonText">Press when green.</string>
     <string name="dialogInstructions">Press when green.</string>
     <string name="okay">OK</string>
+    <string name="title_activity_statistics">statistics</string>
 </resources>
