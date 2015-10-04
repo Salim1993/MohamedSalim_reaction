@@ -2,6 +2,7 @@ package com.example.salim_000.mohamedsalim_reaction;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -21,18 +22,20 @@ public class Singleplayer extends AppCompatActivity {
     reactionManager currentReactions = new reactionManager();
     Date startTime;
     Date clickTime;
-
+    Boolean startStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singleplayer);
-
+        changeButtonColor(findViewById(R.id.reactionButton), 0xFFD5D6D6);
 
         AlertDialog.Builder singleplayerBuilder = new AlertDialog.Builder(this);
         singleplayerBuilder.setMessage(R.string.dialogInstructions);
         singleplayerBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                startStatus = true;
+                onResume();
             }
         });
 
@@ -53,10 +56,20 @@ public class Singleplayer extends AppCompatActivity {
                 System.out.println("the time is");
                 System.out.println(currentReactions.calculateTime(clickTime, startTime));
 
-                Toast myToast = Toast.makeText(getApplicationContext(),"The time is " + currentReactions.calculateTime(clickTime, startTime) + " ms", Toast.LENGTH_SHORT );
-                myToast.show();
+                AlertDialog.Builder endBuilder = new AlertDialog.Builder(Singleplayer.this);
+                endBuilder.setMessage("Your time was " + currentReactions.calculateTime(clickTime, startTime).toString() + " ms");
+                endBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onResume();
+                    }
+                });
+                Dialog endDialog = endBuilder.create();
+                endDialog.show();
             }
         };
+
+        changeButtonColor(findViewById(R.id.reactionButton),0xFFD5D6D6);
+
 
         timeHandler = new Handler() {
             @Override
@@ -64,7 +77,7 @@ public class Singleplayer extends AppCompatActivity {
                 reactionStart = (String) msg.obj;
                 startTime = new Date();
                 System.out.println(startTime.toString());
-                changeButtonColor(findViewById(R.id.reactionButton));
+                changeButtonColor(findViewById(R.id.reactionButton),0xFF00FF00);
                 Button reactionButton = (Button) findViewById(R.id.reactionButton);
                 reactionButton.setOnClickListener(buttonListener);
             }
@@ -95,8 +108,8 @@ public class Singleplayer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void changeButtonColor (View button){
-        button.setBackgroundColor(0xFF00FF00);
+    public void changeButtonColor (View button, int color){
+        button.setBackgroundColor(color);
         button.invalidate();
     }
 
@@ -106,7 +119,7 @@ public class Singleplayer extends AppCompatActivity {
         @Override
         public void run() {
             timerStart.startCountDown();
-            while(!timerStart.getStatus().equals("done!")){}
+            while((!timerStart.getStatus().equals("done!")) && startStatus){}
             Message msg = Message.obtain();
             msg.obj = timerStart.getStatus();
 
