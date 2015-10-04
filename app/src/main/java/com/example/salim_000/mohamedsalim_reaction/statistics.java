@@ -6,16 +6,43 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class statistics extends AppCompatActivity {
 
     playerManager playerManage = new playerManager();
+    reactionManager reactionManage = new reactionManager();
+    private static final String FILENAME = "singleFile.sav";
+    private static final String FILENAME1 = "multiFile.sav";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+    }
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        loadFromSingleFile();
+        loadFromMultiFile();
+        if (reactionManage.getReactionList() == null) {
+            throw new RuntimeException();
+        }
     }
 
     @Override
@@ -42,5 +69,74 @@ public class statistics extends AppCompatActivity {
 
     public void clear(View view){
         playerManage.clear();
+        reactionManage.setReactionList(new ArrayList<Integer>());
+    }
+
+    private void loadFromSingleFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html retrieved 2015-09-21
+            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+            ArrayList<Integer> reactionList;
+            reactionList = gson.fromJson(in, listType);
+            reactionManage.setReactionList(reactionList);
+
+        } catch (FileNotFoundException e) {
+            reactionManage.setReactionList(new ArrayList<Integer>());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void saveInSingleFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    0);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(reactionManage.getReactionList(), writer);
+            writer.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadFromMultiFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME1);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html retrieved 2015-09-21
+            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+            ArrayList<Integer> countList;
+            countList = gson.fromJson(in, listType);
+            playerManage.setStatus(countList);
+
+        } catch (FileNotFoundException e) {
+            playerManage.clear();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void saveMultiFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME1,
+                    0);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(playerManage.getStatus(), writer);
+            writer.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

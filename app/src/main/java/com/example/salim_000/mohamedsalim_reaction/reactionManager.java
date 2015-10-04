@@ -16,6 +16,14 @@ public class reactionManager {
     public reactionManager() {
     }
 
+    public ArrayList<Integer> getReactionList() {
+        return reactionList;
+    }
+
+    public void setReactionList(ArrayList<Integer> reactionList) {
+        this.reactionList = reactionList;
+    }
+
     void addTime(Integer time){
         reactionList.add(time);
     }

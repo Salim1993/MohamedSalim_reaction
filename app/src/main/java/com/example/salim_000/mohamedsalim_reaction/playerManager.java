@@ -1,5 +1,7 @@
 package com.example.salim_000.mohamedsalim_reaction;
 
+import java.util.ArrayList;
+
 /**
  * Created by salim_000 on 2015-10-03.
  */
@@ -12,12 +14,29 @@ public class playerManager {
     public playerManager() {
     }
 
-    public void setStatus(int stat1, int stat2, int stat3, int stat4) {
-        //need to update stats from save file, may implement arrays
+    public void setStatus(ArrayList<Integer> countList) {
+        if(countList.size() == 9) {
+            player1.setAll(countList.get(0), countList.get(1), countList.get(2));
+            player2.setAll(countList.get(3), countList.get(4), countList.get(5));
+            player3.setAll(countList.get(6), countList.get(7));
+            player4.setFourPlayer(countList.get(8));
+        } else {
+            System.out.println("Size is wrong it is " + countList.size());
+        }
     }
 
-    public void saveStatus(){
-        //figure out how to save status of players to file
+    public ArrayList<Integer> getStatus(){
+        ArrayList<Integer> getCount = new ArrayList<>();
+        getCount.add(player1.getTwoPlayer());
+        getCount.add(player1.getThreePlayer());
+        getCount.add(player1.getFourPlayer());
+        getCount.add(player2.getTwoPlayer());
+        getCount.add(player2.getThreePlayer());
+        getCount.add(player2.getFourPlayer());
+        getCount.add(player3.getThreePlayer());
+        getCount.add(player3.getFourPlayer());
+        getCount.add(player4.getFourPlayer());
+        return getCount;
     }
 
     public void updatePlayers(int player, int mode) {

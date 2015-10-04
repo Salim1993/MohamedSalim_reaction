@@ -15,12 +15,26 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class multiplayerScreen extends AppCompatActivity {
+
+    final playerManager players = new playerManager();
+    private static final String FILENAME1 = "multiFile.sav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final playerManager players = new playerManager();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_screen);
         int buttonsNumber = 2;
@@ -60,6 +74,19 @@ public class multiplayerScreen extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        loadFromMultiFile();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveMultiFile();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_multiplayer_screen, menu);
@@ -79,5 +106,42 @@ public class multiplayerScreen extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadFromMultiFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME1);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html retrieved 2015-09-21
+            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+            ArrayList<Integer> countList;
+            countList = gson.fromJson(in, listType);
+            System.out.println("The size list is wrong it is" + countList.size());
+            players.setStatus(countList);
+
+        } catch (FileNotFoundException e) {
+            players.clear();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }catch (NullPointerException e){
+            players.clear();
+        }
+    }
+
+    private void saveMultiFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME1,
+                    0);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(players.getStatus(), writer);
+            writer.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

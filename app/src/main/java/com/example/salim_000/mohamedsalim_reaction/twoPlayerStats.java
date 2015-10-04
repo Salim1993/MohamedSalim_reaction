@@ -53,6 +53,12 @@ public class twoPlayerStats {
         setFourPlayer(getFourPlayer() + 1);
     }
 
+    public void setAll(int twoPlayer, int threePlayer, int fourPlayer){
+        this.twoPlayer = twoPlayer;
+        this.threePlayer = threePlayer;
+        this.fourPlayer = fourPlayer;
+    }
+
     public void clear() {
         setTwoPlayer(0);
         setThreePlayer(0);

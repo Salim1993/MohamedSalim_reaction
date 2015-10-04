@@ -7,6 +7,8 @@ public class threePlayerStats {
     int threePlayer = 0;
     int fourPlayer = 0;
 
+    public threePlayerStats() {}
+
     public int getThreePlayer() {
         return threePlayer;
     }
@@ -34,5 +36,10 @@ public class threePlayerStats {
     public void clear() {
         setThreePlayer(0);
         setFourPlayer(0);
+    }
+
+    public void setAll(int threePlayer, int fourPlayer){
+        this.threePlayer = threePlayer;
+        this.fourPlayer = fourPlayer;
     }
 }
