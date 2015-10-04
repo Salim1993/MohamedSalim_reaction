@@ -70,4 +70,11 @@ public class playerManager {
             default:break;
         }
     }
+
+    public void clear(){
+        player1.clear();
+        player2.clear();
+        player3.clear();
+        player4.clear();
+    }
 }

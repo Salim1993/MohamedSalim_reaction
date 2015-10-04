@@ -24,4 +24,8 @@ public class fourPlayerStats {
     public void addCountFour() {
         setFourPlayer(getFourPlayer() + 1);
     }
+
+    public void clear(){
+        setFourPlayer(0);
+    }
 }

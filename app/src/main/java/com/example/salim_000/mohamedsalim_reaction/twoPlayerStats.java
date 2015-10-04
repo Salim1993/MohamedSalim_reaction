@@ -52,4 +52,10 @@ public class twoPlayerStats {
     public void addCountFour() {
         setFourPlayer(getFourPlayer() + 1);
     }
+
+    public void clear() {
+        setTwoPlayer(0);
+        setThreePlayer(0);
+        setFourPlayer(0);
+    }
 }

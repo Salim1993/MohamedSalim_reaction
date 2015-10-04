@@ -1,16 +1,21 @@
 package com.example.salim_000.mohamedsalim_reaction;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class statistics extends AppCompatActivity {
+
+    playerManager playerManage = new playerManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+
     }
 
     @Override
@@ -33,5 +38,9 @@ public class statistics extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clear(View view){
+        playerManage.clear();
     }
 }

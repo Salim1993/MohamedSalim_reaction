@@ -36,8 +36,12 @@ public class reactionManager {
         return 1;
     }
 
-    Integer getMode (){
-        //for each loop to calculate the highest occuring value.
+    Integer getMax (){
+        //for each loop to calculate the highest value.
+        return 1;
+    }
+
+    Integer getMin() {
         return 1;
     }
 }

@@ -30,4 +30,9 @@ public class threePlayerStats {
     public void addCountFour() {
         setFourPlayer(getFourPlayer() + 1);
     }
+
+    public void clear() {
+        setThreePlayer(0);
+        setFourPlayer(0);
+    }
 }
