@@ -22,8 +22,22 @@ public class Singleplayer extends AppCompatActivity {
 
     Handler timeHandler;
     String reactionStart = "not done!";
-    //reactionManager currentReactions = new reactionManager();
+    reactionManager currentReactions = new reactionManager();
     Date startTime;
+    Date clickTime;
+
+
+
+    View.OnClickListener buttonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // create text alert and send calculate
+            clickTime = new Date();
+            currentReactions.addTime(currentReactions.calculateTime(clickTime,startTime));
+            System.out.println(currentReactions.calculateTime(clickTime,startTime));
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +68,8 @@ public class Singleplayer extends AppCompatActivity {
                 startTime = new Date();
                 System.out.println(startTime.toString());
                 changeButtonColor(findViewById(R.id.reactionButton));
-                //reactionButton.setOnClickListener(buttonListener);
+                Button reactionButton = (Button) findViewById(R.id.reactionButton);
+                reactionButton.setOnClickListener(buttonListener);
             }
         };
         Thread t = new Thread(new timeThread());
