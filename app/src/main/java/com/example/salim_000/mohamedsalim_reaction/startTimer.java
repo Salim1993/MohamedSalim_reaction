@@ -23,7 +23,7 @@ public class startTimer {
             public void run() {
                 status = "done!";
             }
-        }, 10*1000);
+        }, 5000);
     }
 
     public String getStatus() {
