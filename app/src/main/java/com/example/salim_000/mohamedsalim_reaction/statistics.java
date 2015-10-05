@@ -33,6 +33,13 @@ public class statistics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
+        loadFromSingleFile();
+        loadFromMultiFile();
+        if (reactionManage.getReactionList() == null) {
+            throw new RuntimeException();
+        }
+        setSinglePlayerStats();
+        setMultiplayerStats();
     }
 
     @Override
