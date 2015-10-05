@@ -46,4 +46,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, choosingPlayers.class);
         startActivity(intent);
     }
+
+    public void toStatistics(View view) {
+        Intent intent = new Intent(this, statistics.class);
+        startActivity(intent);
+    }
 }
+

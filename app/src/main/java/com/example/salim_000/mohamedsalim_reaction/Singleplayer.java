@@ -11,9 +11,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import android.os.Handler;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Singleplayer extends AppCompatActivity {
 
@@ -23,6 +36,7 @@ public class Singleplayer extends AppCompatActivity {
     Date startTime;
     Date clickTime;
     Boolean startStatus = false;
+    private static final String FILENAME = "singleFile.sav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +55,13 @@ public class Singleplayer extends AppCompatActivity {
 
         Dialog singleplayerDialog = singleplayerBuilder.create();
         singleplayerDialog.show();
+    }
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        loadFromSingleFile();
     }
 
     @Override
@@ -68,7 +89,7 @@ public class Singleplayer extends AppCompatActivity {
             }
         };
 
-        changeButtonColor(findViewById(R.id.reactionButton),0xFFD5D6D6);
+        changeButtonColor(findViewById(R.id.reactionButton), 0xFFD5D6D6);
 
 
         timeHandler = new Handler() {
@@ -84,6 +105,12 @@ public class Singleplayer extends AppCompatActivity {
         };
         Thread t = new Thread(new timeThread());
         t.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveInSingleFile();
     }
 
     @Override
@@ -124,6 +151,42 @@ public class Singleplayer extends AppCompatActivity {
             msg.obj = timerStart.getStatus();
 
             timeHandler.sendMessage(msg);
+        }
+    }
+
+    private void loadFromSingleFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            // Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html retrieved 2015-09-21
+            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+            ArrayList<Integer> reactionList;
+            reactionList = gson.fromJson(in, listType);
+            currentReactions.setReactionList(reactionList);
+
+        } catch (FileNotFoundException e) {
+            currentReactions.setReactionList(new ArrayList<Integer>());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }catch (NullPointerException e){
+            currentReactions.setReactionList(new ArrayList<Integer>());
+        }
+    }
+
+    private void saveInSingleFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    0);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(currentReactions.getReactionList(), writer);
+            writer.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,7 +33,6 @@ public class statistics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-
     }
 
     @Override
@@ -43,6 +44,8 @@ public class statistics extends AppCompatActivity {
         if (reactionManage.getReactionList() == null) {
             throw new RuntimeException();
         }
+        setSinglePlayerStats();
+        setMultiplayerStats();
     }
 
     @Override
@@ -70,6 +73,10 @@ public class statistics extends AppCompatActivity {
     public void clear(View view){
         playerManage.clear();
         reactionManage.setReactionList(new ArrayList<Integer>());
+        saveInSingleFile();
+        saveMultiFile();
+        setSinglePlayerStats();
+        setMultiplayerStats();
     }
 
     private void loadFromSingleFile() {
@@ -138,5 +145,79 @@ public class statistics extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setSinglePlayerStats(){
+        TextView max10Text = (TextView) findViewById(R.id.max10);
+        max10Text.setText(reactionManage.getMax10().toString());
+        max10Text.invalidate();
+
+        TextView max100Text = (TextView) findViewById(R.id.max100);
+        max100Text.setText(reactionManage.getMax100().toString());
+        max100Text.invalidate();
+
+        TextView min10Text = (TextView) findViewById(R.id.min10);
+        min10Text.setText(reactionManage.getMin10().toString());
+        min10Text.invalidate();
+
+        TextView min100Text = (TextView) findViewById(R.id.min100);
+        min100Text.setText(reactionManage.getMin100().toString());
+        min100Text.invalidate();
+
+        TextView ave10Text = (TextView) findViewById(R.id.ave10);
+        ave10Text.setText(String.valueOf(reactionManage.getMean10()));
+        ave10Text.invalidate();
+
+        TextView ave100Text = (TextView) findViewById(R.id.ave100);
+        ave100Text.setText(String.valueOf(reactionManage.getMean100()));
+        ave100Text.invalidate();
+
+        TextView median10Text = (TextView) findViewById(R.id.median10);
+        median10Text.setText(reactionManage.getMedian10().toString());
+        median10Text.invalidate();
+
+        TextView median100Text = (TextView) findViewById(R.id.median100);
+        median100Text.setText(reactionManage.getMedian100().toString());
+        median100Text.invalidate();
+    }
+
+    public void setMultiplayerStats() {
+        ArrayList<Integer> count = playerManage.getStatus();
+
+        TextView player1Game2Text = (TextView) findViewById(R.id.player1Game2);
+        player1Game2Text.setText(count.get(0).toString());
+        player1Game2Text.invalidate();
+
+        TextView player1Game3Text = (TextView) findViewById(R.id.player1Game3);
+        player1Game3Text.setText(count.get(1).toString());
+        player1Game3Text.invalidate();
+
+        TextView player1Game4Text = (TextView) findViewById(R.id.player1Game4);
+        player1Game4Text.setText(count.get(2).toString());
+        player1Game4Text.invalidate();
+
+        TextView player2Game2Text = (TextView) findViewById(R.id.player2Game2);
+        player2Game2Text.setText(count.get(3).toString());
+        player2Game2Text.invalidate();
+
+        TextView player2Game3Text = (TextView) findViewById(R.id.player2Game3);
+        player2Game3Text.setText(count.get(4).toString());
+        player2Game3Text.invalidate();
+
+        TextView player2Game4Text = (TextView) findViewById(R.id.player2Game4);
+        player2Game4Text.setText(count.get(5).toString());
+        player2Game4Text.invalidate();
+
+        TextView player3Game3Text = (TextView) findViewById(R.id.player3Game3);
+        player3Game3Text.setText(count.get(6).toString());
+        player3Game3Text.invalidate();
+
+        TextView player3Game4Text = (TextView) findViewById(R.id.player3Game4);
+        player3Game4Text.setText(count.get(7).toString());
+        player3Game4Text.invalidate();
+
+        TextView player4Game4Text = (TextView) findViewById(R.id.player4Game4);
+        player4Game4Text.setText(count.get(8).toString());
+        player4Game4Text.invalidate();
     }
 }
