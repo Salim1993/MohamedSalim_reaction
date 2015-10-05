@@ -74,7 +74,7 @@ public class reactionManager {
             int mode = size/2; // might need to check if integer rounds up or down.
             return reactionList.get(mode);
         }else {
-            ArrayList<Integer> smallReactionList = (ArrayList) reactionList.subList(0, 10);
+            List<Integer> smallReactionList = reactionList.subList(0, 10);
             int size = smallReactionList.size();
             Collections.sort(smallReactionList);
             int mode = size / 2; // might need to check if integer rounds up or down.

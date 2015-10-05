@@ -84,6 +84,7 @@ public class statistics extends AppCompatActivity {
         saveMultiFile();
         setSinglePlayerStats();
         setMultiplayerStats();
+        onStart();
     }
 
     private void loadFromSingleFile() {
