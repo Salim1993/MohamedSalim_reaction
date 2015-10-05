@@ -1,3 +1,21 @@
+/*
+        Copyright 2015 Mohamed Salim Ben Khaled
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+*/
+
+//I took the some code form the solution section in the website http://stackoverflow.com/questions/27680275/dynamic-number-of-buttons-in-linearlayout
+//Which was written by the user ToYonos
+
 package com.example.salim_000.mohamedsalim_reaction;
 
 import android.app.AlertDialog;
@@ -48,6 +66,7 @@ public class multiplayerScreen extends AppCompatActivity {
 
         for(int i = 0; i < buttonsNumber; i++)
         {
+            //http://stackoverflow.com/questions/27680275/dynamic-number-of-buttons-in-linearlayout  by the user ToYonos
             Button newButton = new Button(this);
             newButton.setId(View.generateViewId());
             newButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
